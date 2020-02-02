@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace The_Ultimate_Tracking.Properties
+namespace TheUltimateTracking.Properties
 {
 
 

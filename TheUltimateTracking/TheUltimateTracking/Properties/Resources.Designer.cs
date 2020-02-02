@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace The_Ultimate_Tracking.Properties
+namespace TheUltimateTracking.Properties
 {
 
 
@@ -44,7 +44,7 @@ namespace The_Ultimate_Tracking.Properties
             {
                 if ((resourceMan == null))
                 {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("The_Ultimate_Tracking.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheUltimateTracking.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

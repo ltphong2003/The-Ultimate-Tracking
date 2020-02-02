@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace The_Ultimate_Tracking
+namespace TheUltimateTracking
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace The_Ultimate_Tracking
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            Application.Run(new Form1());
         }
     }
 }
