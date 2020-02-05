@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GMap;
 
 namespace TheUltimateTracking
 {
@@ -17,7 +16,7 @@ namespace TheUltimateTracking
         {
             InitializeComponent();
         }
-        public static int user_id = 0;
+        public static int user_id = 1;
         private void tabControl1_DrawItem(Object sender, System.Windows.Forms.DrawItemEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -65,8 +64,11 @@ namespace TheUltimateTracking
             {
                 this.Close();
             }
-
-
+            gmap.MapProvider = GMap.NET.MapProviders.GoogleMapProvider.Instance;
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
+            gmap.SetPositionByKeywords("Pacific Ocean");
+            gmap.Position = new GMap.NET.PointLatLng(48.8589507, 2.2775175);
+            gmap.ShowCenter = false;
         }
     }
        

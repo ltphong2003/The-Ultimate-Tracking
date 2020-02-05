@@ -32,11 +32,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.HomePage = new System.Windows.Forms.TabPage();
-            this.GMap = new GMap.NET.WindowsForms.GMapControl();
+            this.gmap = new GMap.NET.WindowsForms.GMapControl();
             this.TrackingPage = new System.Windows.Forms.TabPage();
             this.SettingPage = new System.Windows.Forms.TabPage();
             this.imglIcon = new System.Windows.Forms.ImageList(this.components);
-            this.gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             this.tabControl1.SuspendLayout();
             this.HomePage.SuspendLayout();
             this.SuspendLayout();
@@ -61,8 +60,7 @@
             // 
             // HomePage
             // 
-            this.HomePage.Controls.Add(this.gMapControl1);
-            this.HomePage.Controls.Add(this.GMap);
+            this.HomePage.Controls.Add(this.gmap);
             this.HomePage.ImageIndex = 0;
             this.HomePage.Location = new System.Drawing.Point(124, 4);
             this.HomePage.Name = "HomePage";
@@ -72,31 +70,31 @@
             this.HomePage.Text = "Home";
             this.HomePage.UseVisualStyleBackColor = true;
             // 
-            // GMap
+            // gmap
             // 
-            this.GMap.Bearing = 0F;
-            this.GMap.CanDragMap = true;
-            this.GMap.EmptyTileColor = System.Drawing.Color.Navy;
-            this.GMap.GrayScaleMode = false;
-            this.GMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.GMap.LevelsKeepInMemory = 5;
-            this.GMap.Location = new System.Drawing.Point(0, -4);
-            this.GMap.MarkersEnabled = true;
-            this.GMap.MaxZoom = 2;
-            this.GMap.MinZoom = 2;
-            this.GMap.MouseWheelZoomEnabled = true;
-            this.GMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.GMap.Name = "GMap";
-            this.GMap.NegativeMode = false;
-            this.GMap.PolygonsEnabled = true;
-            this.GMap.RetryLoadTile = 0;
-            this.GMap.RoutesEnabled = true;
-            this.GMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.GMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.GMap.ShowTileGridLines = false;
-            this.GMap.Size = new System.Drawing.Size(939, 637);
-            this.GMap.TabIndex = 0;
-            this.GMap.Zoom = 0D;
+            this.gmap.Bearing = 0F;
+            this.gmap.CanDragMap = true;
+            this.gmap.EmptyTileColor = System.Drawing.Color.RoyalBlue;
+            this.gmap.GrayScaleMode = false;
+            this.gmap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gmap.LevelsKeepInMemmory = 5;
+            this.gmap.Location = new System.Drawing.Point(2, 0);
+            this.gmap.MarkersEnabled = true;
+            this.gmap.MaxZoom = 18;
+            this.gmap.MinZoom = 2;
+            this.gmap.MouseWheelZoomEnabled = true;
+            this.gmap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.gmap.Name = "gmap";
+            this.gmap.NegativeMode = false;
+            this.gmap.PolygonsEnabled = true;
+            this.gmap.RetryLoadTile = 0;
+            this.gmap.RoutesEnabled = true;
+            this.gmap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gmap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gmap.ShowTileGridLines = false;
+            this.gmap.Size = new System.Drawing.Size(937, 543);
+            this.gmap.TabIndex = 0;
+            this.gmap.Zoom = 13D;
             // 
             // TrackingPage
             // 
@@ -127,32 +125,6 @@
             this.imglIcon.Images.SetKeyName(1, "track.png");
             this.imglIcon.Images.SetKeyName(2, "support.png");
             // 
-            // gMapControl1
-            // 
-            this.gMapControl1.Bearing = 0F;
-            this.gMapControl1.CanDragMap = true;
-            this.gMapControl1.EmptyTileColor = System.Drawing.Color.Navy;
-            this.gMapControl1.GrayScaleMode = false;
-            this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.gMapControl1.LevelsKeepInMemory = 5;
-            this.gMapControl1.Location = new System.Drawing.Point(0, -4);
-            this.gMapControl1.MarkersEnabled = true;
-            this.gMapControl1.MaxZoom = 2;
-            this.gMapControl1.MinZoom = 2;
-            this.gMapControl1.MouseWheelZoomEnabled = true;
-            this.gMapControl1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.gMapControl1.Name = "gMapControl1";
-            this.gMapControl1.NegativeMode = false;
-            this.gMapControl1.PolygonsEnabled = true;
-            this.gMapControl1.RetryLoadTile = 0;
-            this.gMapControl1.RoutesEnabled = true;
-            this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.gMapControl1.ShowTileGridLines = false;
-            this.gMapControl1.Size = new System.Drawing.Size(939, 594);
-            this.gMapControl1.TabIndex = 1;
-            this.gMapControl1.Zoom = 0D;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -176,8 +148,7 @@
         private System.Windows.Forms.TabPage TrackingPage;
         private System.Windows.Forms.TabPage SettingPage;
         private System.Windows.Forms.ImageList imglIcon;
-        private GMap.NET.WindowsForms.GMapControl GMap;
-        private GMap.NET.WindowsForms.GMapControl gMapControl1;
+        private GMap.NET.WindowsForms.GMapControl gmap;
     }
 }
 
