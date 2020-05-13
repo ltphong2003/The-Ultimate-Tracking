@@ -27,12 +27,12 @@ namespace TheUltimateTracking
             string pass = txtPass.Text;
             if ((email != "") && (pass != ""))
             {
-                FirebaseResponse response = await ConnectDatabase.client.GetTaskAsync("user/detail");
+                FirebaseResponse response = await ConnectDatabase.client.GetAsync("user/detail");
                 UserDetail detail = response.ResultAs<UserDetail>();
                 int user_number = Convert.ToInt32(detail.number);
                 for (int i = 1; i <= user_number; i++)
                 {
-                    FirebaseResponse response_user = await ConnectDatabase.client.GetTaskAsync("user/" + i.ToString());
+                    FirebaseResponse response_user = await ConnectDatabase.client.GetAsync("user/" + i.ToString());
                     UserAcc us_data = response_user.ResultAs<UserAcc>();
                     if (us_data.email == email)
                     {

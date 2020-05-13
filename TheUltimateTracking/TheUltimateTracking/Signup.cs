@@ -35,5 +35,15 @@ namespace TheUltimateTracking
         {
 
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Signup_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

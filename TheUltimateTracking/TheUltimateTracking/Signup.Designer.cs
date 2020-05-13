@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Signup));
             this.txtPassconfirm = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -36,6 +37,7 @@
             this.txtEmailSignup = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // txtPassconfirm
@@ -114,6 +116,10 @@
             this.label4.TabIndex = 14;
             this.label4.Text = "Email";
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Signup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -131,6 +137,7 @@
             this.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.Name = "Signup";
             this.Text = "Signup";
+            this.Load += new System.EventHandler(this.Signup_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -145,5 +152,6 @@
         private System.Windows.Forms.TextBox txtEmailSignup;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Timer timer1;
     }
 }
