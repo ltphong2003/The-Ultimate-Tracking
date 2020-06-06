@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "107352462232",
+    "firebase_url": "https://the-ultimate-tracking.firebaseio.com",
+    "project_id": "the-ultimate-tracking",
+    "storage_bucket": "the-ultimate-tracking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107352462232:android:eccf266e04ae02461711ed",
+        "android_client_info": {
+          "package_name": "com.companyname.theultimatetrackingmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107352462232-b4fps2iljn3qgoa2mu8qscnu0u841jvq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBRyDScgrGSfPkgytaS-M5OuLIn06M2e4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107352462232-b4fps2iljn3qgoa2mu8qscnu0u841jvq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

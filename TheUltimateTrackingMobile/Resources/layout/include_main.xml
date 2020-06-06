@@ -1,0 +1,49 @@
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <fragment
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.google.android.gms.maps.SupportMapFragment"/>
+
+        <Button
+            android:id="@+id/zoominBtn"
+            android:layout_marginTop="444dp"
+            android:layout_marginLeft="320dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@android:color/darker_gray"
+            android:text="+"
+            android:textSize="40dp"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:id="@+id/zoomoutBtn"
+            android:layout_marginTop="500dp"
+            android:layout_marginLeft="320dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@android:color/darker_gray"
+            android:text="-"
+            android:textSize="40dp"
+            android:textColor="@android:color/white"/>
+        
+        <Spinner
+            android:id="@+id/vehicleSpinner"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="50dp"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:textAlignment="center"
+            android:background="@android:color/darker_gray"/>
+    </FrameLayout>
+                                   
+</android.support.design.widget.CoordinatorLayout>
