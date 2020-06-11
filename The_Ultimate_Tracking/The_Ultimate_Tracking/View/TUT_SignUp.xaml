@@ -14,6 +14,13 @@
                    Text="{Binding imei, StringFormat='Số imei của bạn là {0:F0}'}"/>
             <Label x:Name="VehicleID" 
                    Text="{Binding vehicle_id, StringFormat='Vehicle ID của bạn là {0:F0}'}"/>
+            <ListView x:Name="lstDetail">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding number}"></TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             <Entry x:Name="Nameentery" Placeholder="Tên phương tiện" 
                    Text="{Binding name}" />
             <Entry x:Name="Numberentery" Placeholder="Biển số xe" 

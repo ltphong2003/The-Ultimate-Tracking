@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using Plugin.DeviceInfo;
+using The_Ultimate_Tracking.Model;
 using The_Ultimate_Tracking.View;
 using The_Ultimate_Tracking.ViewModel;
 
@@ -22,9 +23,14 @@ namespace The_Ultimate_Tracking.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private string User_id;
+        private async void SetUserId()
+        {
+            User_id = await FirebaseHelper.GetAllDetails(email);
+        }
         public string user_id
         {
-            get { return email; }
+            get { return User_id; }
         }
 
         private string Name;
@@ -54,23 +60,8 @@ namespace The_Ultimate_Tracking.ViewModel
         {
             get { return Imei; }
         }
-
-        private string Vehicle_id;   
-        private async void SetNum()
-        {
-            var value = await FirebaseHelper.GetAllDetailsVehi();
-            foreach (var item in value)
-            {
-                //Access values by item.Object.<field_name> and item.Key
-                int current = Convert.ToInt32(item.numbervehi);
-                current = current + 1;
-                Vehicle_id = current.ToString();
-            }
-        }
-        public string vehicle_id
-        {
-            get { return Vehicle_id; }
-        }
+      
+        public string vehicle_id { get; set; }
         
         //Command
         public Command SignUpVehicleCommand
@@ -85,11 +76,12 @@ namespace The_Ultimate_Tracking.ViewModel
         }
         private async void SignUpVehi()
         {
+            SetUserId();
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(lpn))
                 await App.Current.MainPage.DisplayAlert("Empty Values", "Vui lòng điền đủ thông tin", "OK");
             else
             {  
-                var vehicle = await FirebaseHelper.AddVehicle(imei, lpn, name, user_id, vehicle_id);   
+                var vehicle = await FirebaseHelper.AddVehicle(imei, lpn, name);   
                 if (vehicle)
                 {
                     await App.Current.MainPage.DisplayAlert("Yay! Bạn có thêm xe mới kìa!", "", "Ok");    

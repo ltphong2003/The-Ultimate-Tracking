@@ -18,4 +18,14 @@ namespace The_Ultimate_Tracking.Model
         public string user_id { get; set; }
         public string vehicle_id { get; set; }
     }
+
+    class PastValueVehi
+    {
+        public string number { get; set; }
+    }
+
+    class PastValue
+    {
+        public string number { get; set; }
+    }
 }

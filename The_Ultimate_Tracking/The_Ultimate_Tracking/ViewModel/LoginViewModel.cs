@@ -61,9 +61,9 @@ namespace The_Ultimate_Tracking.ViewModel
                         await App.Current.MainPage.Navigation.PushAsync(new WelcomePage(email));
                     }
                     else
-                        await App.Current.MainPage.DisplayAlert("Login Fail", "Please enter correct Email and Password", "OK");
+                        await App.Current.MainPage.DisplayAlert("Đăng nhập thất bại", "Vui lòng kiểm tra lại email và mật khẩu, hoặc đăng ký tài khoản mới", "OK");
                 else
-                    await App.Current.MainPage.DisplayAlert("Login Fail", "User not found", "OK");
+                    await App.Current.MainPage.DisplayAlert("Đăng nhập thất bại", "Vui lòng kiểm tra lại email và mật khẩu, hoặc đăng ký tài khoản mới", "OK");
             }
         }
         public Command NavigateToSignUpCommand

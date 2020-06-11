@@ -20,6 +20,7 @@ namespace The_Ultimate_Tracking.ViewModel
                     PropertyChanged(this, new PropertyChangedEventArgs("email"));
                 }
             }
+
             
         private string Password;
 
