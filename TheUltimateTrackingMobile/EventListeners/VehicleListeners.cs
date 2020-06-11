@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -48,11 +49,11 @@ namespace TheUltimateTrackingMobile.EventListeners
                     if (vehicleData.Key != "detail")
                     {
                         VehicleId vehicleid = new VehicleId();
-                        vehicleid.imei = vehicleData.Child("imei").Value.ToString();
-                        vehicleid.lpn = vehicleData.Child("lpn").Value.ToString();
-                        vehicleid.name = vehicleData.Child("name").Value.ToString();
-                        vehicleid.user_id = vehicleData.Child("user_id").Value.ToString();
-                        vehicleid.vehicle_id = vehicleData.Child("vehicle_id").Value.ToString();
+                        if (vehicleData.Child("imei") != null) vehicleid.imei = vehicleData.Child("imei").Value.ToString();
+                        if (vehicleData.Child("lpn") != null) vehicleid.lpn = vehicleData.Child("lpn").Value.ToString();
+                        if (vehicleData.Child("name") != null) vehicleid.name = vehicleData.Child("name").Value.ToString();
+                        if (vehicleData.Child("user_id") != null) vehicleid.user_id = vehicleData.Child("user_id").Value.ToString();
+                        if (vehicleData.Child("vehicle_id") != null) vehicleid.vehicle_id = vehicleData.Child("vehicle_id").Value.ToString();
 
                         vehicleidList.Add(vehicleid);
                     }

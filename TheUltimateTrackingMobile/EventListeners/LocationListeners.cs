@@ -44,13 +44,13 @@ namespace TheUltimateTrackingMobile.EventListeners
                     
                     Location location = new Location();
                         
-                    location.address = locationData.Child("address").Value.ToString();
-                    location.direction = locationData.Child("direction").Value.ToString();
-                    location.lat = locationData.Child("lat").Value.ToString();
-                    location.lon = locationData.Child("lon").Value.ToString();
-                    location.speed = locationData.Child("speed").Value.ToString();
-                    location.time = locationData.Child("time").Value.ToString();
-                    location.vehicle_id = locationData.Child("vehicle_id").Value.ToString();
+                    if (locationData.Child("address") != null) location.address = locationData.Child("address").Value.ToString();
+                    if (locationData.Child("direction") != null) location.direction = locationData.Child("direction").Value.ToString();
+                    if (locationData.Child("lat") != null) location.lat = locationData.Child("lat").Value.ToString();
+                    if (locationData.Child("lon") != null) location.lon = locationData.Child("lon").Value.ToString();
+                    if (locationData.Child("speed") != null) location.speed = locationData.Child("speed").Value.ToString();
+                    if (locationData.Child("time") != null) location.time = locationData.Child("time").Value.ToString();
+                    if (locationData.Child("vehicle_id") != null) location.vehicle_id = locationData.Child("vehicle_id").Value.ToString();
 
                     locationList.Add(location);
                 }
