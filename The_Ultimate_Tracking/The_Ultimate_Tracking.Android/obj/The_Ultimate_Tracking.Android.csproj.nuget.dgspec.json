@@ -96,6 +96,10 @@
       "frameworks": {
         "netstandard2.0": {
           "dependencies": {
+            "FireSharp": {
+              "target": "Package",
+              "version": "[2.0.4, )"
+            },
             "FirebaseDatabase.net": {
               "target": "Package",
               "version": "[4.0.4, )"
@@ -105,6 +109,10 @@
               "target": "Package",
               "version": "[2.0.3, )",
               "autoReferenced": true
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[106.11.5-alpha.0.2, )"
             },
             "Xam.Plugin.DeviceInfo": {
               "target": "Package",

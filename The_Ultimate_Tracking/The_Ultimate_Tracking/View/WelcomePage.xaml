@@ -6,9 +6,18 @@
              NavigationPage.HasBackButton="False">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Chào mừng bạn đến với The Ultimate Tracking!"  
-                    VerticalOptions="CenterAndExpand"   
-                    HorizontalOptions="CenterAndExpand" />
+            <Label Text="Chào mừng bạn đến với The Ultimate Tracking!"    
+                   HorizontalOptions="CenterAndExpand" />
+            <Label Text="DANH SÁCH PHƯƠNG TIỆN"
+                   TextColor="DarkGoldenrod"
+                   HorizontalOptions="CenterAndExpand" />
+            <ListView x:Name="lstVehicle">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding name}"></TextCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             <Button x:Name="signup" Text="Đăng ký phương tiện mới" 
                     Command="{Binding NavigateToSignUpVehicleCommand}" 
                     HorizontalOptions="Center"

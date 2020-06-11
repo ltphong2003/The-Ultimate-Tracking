@@ -31,5 +31,13 @@ namespace The_Ultimate_Tracking.View
         {
             this.email = email;
         }
+
+        protected async override void OnAppearing()
+        {
+
+            base.OnAppearing();
+            var allVehicles = await FirebaseHelper.GetAllVehis();
+            lstVehicle.ItemsSource = allVehicles;
+        }
     }
 }

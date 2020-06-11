@@ -7,13 +7,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using The_Ultimate_Tracking.Model;
-
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
 namespace The_Ultimate_Tracking.ViewModel
 {
     class FirebaseHelper
     {
         //Connect app with firebase using API Url  
         public static FirebaseClient firebase = new FirebaseClient("https://the-ultimate-tracking.firebaseio.com/");
+        //new FirebaseOptions { AuthTokenAsyncFactory = async() => (await auth.GetFreshAuthAsync()).FirebaseToken });
 
         //Read all user data
         public static async Task<List<User>> GetAllUsers()
@@ -57,35 +60,23 @@ namespace The_Ultimate_Tracking.ViewModel
         }
 
         //Get user detail
-        public class PastValue
+        public static int User_id;
+        public static async Task<string> GetAllDetails(string email)
         {
-            public string number { get; set; }
-        }
-        public static async Task<List<PastValue>> GetAllDetails()
-        {
-            return (await firebase
-              .Child("user/detail")
-              .OnceAsync<PastValue>()).Select(item => new PastValue
-              {
-                  number = item.Object.number
-              }).ToList();
-        }
-
-        public static async Task<PastValue> ReadDetail()
-        {
-            try
+            FirebaseResponse response_vdetail = await ConnectDatabase.client.GetAsync("user/detail");
+            PastValueVehi detail = response_vdetail.ResultAs<PastValueVehi>();
+            int vehi_number = Convert.ToInt32(detail.number);
+            bool is_exist = false;
+            for (int i = 1; i <= vehi_number; i++)
             {
-                var alldetail = await GetAllDetails();
-                await firebase
-                .Child("user/detail")
-                .OnceAsync<User>();
-                return alldetail.FirstOrDefault();
+                FirebaseResponse response_vehi = await ConnectDatabase.client.GetAsync("user/" + i.ToString());
+                User vehi_data = response_vehi.ResultAs<User>();
+                if (vehi_data.email == email)
+                {
+                    User_id = i;                
+                }
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Error:{e}");
-                return null;
-            }
+            return User_id.ToString();
         }
 
         //Add User
@@ -145,18 +136,23 @@ namespace The_Ultimate_Tracking.ViewModel
         }
 
         //Get vehicle detail
-        public class PastValueVehi
-        {
-            public string numbervehi { get; set; }
-        }
         public static async Task<List<PastValueVehi>> GetAllDetailsVehi()
         {
-            return (await firebase
-              .Child("vehicle/detail")
-              .OnceAsync<PastValueVehi>()).Select(item => new PastValueVehi
-              {
-                  numbervehi = item.Object.numbervehi
-              }).ToList();
+            //try
+            {
+                return (await firebase
+                  .Child("vehicle/detail")                 
+                  .OnceAsync<PastValueVehi>()).Select(item => 
+                  new PastValueVehi
+                  {
+                      number = item.Object.number
+                  }).ToList();
+            }
+            /*catch (Exception e)
+            {
+                Debug.WriteLine($"Error:{e}");
+                return null;
+            }*/
         }
 
         public static async Task<PastValueVehi> ReadDetailVehi()
@@ -165,8 +161,9 @@ namespace The_Ultimate_Tracking.ViewModel
             {
                 var alldetail = await GetAllDetailsVehi();
                 await firebase
-                .Child("vehicle/detail")
-                .OnceAsync<User>();
+                .Child("vehicle")
+                .Child("detail")
+                .OnceAsync<PastValueVehi>();
                 return alldetail.FirstOrDefault();
             }
             catch (Exception e)
@@ -177,21 +174,87 @@ namespace The_Ultimate_Tracking.ViewModel
         }
 
         //Add Vehicle
-        public static async Task<bool> AddVehicle(string Imei, string Lpn, string Name, string User_id, string Vehicle_Id)
+        public class VehicleAcc
+        {
+            public string imei { get; set; }
+            public string lpn { get; set; }
+            public string name { get; set; }
+            public string user_id { get; set; }
+            public string vehicle_id { get; set; }
+        }
+        public class ConnectDatabase
+        {
+            public static IFirebaseConfig config = new FirebaseConfig
+            {
+                AuthSecret = "cOsfW43OgJtNzF6tTrSPO6jqkTj65ajlxpPfIWTw",
+                BasePath = "https://the-ultimate-tracking.firebaseio.com/"
+            };
+            public static IFirebaseClient client = new FireSharp.FirebaseClient(config);
+        }
+        public static async Task<bool>AddVehicle(string Imei, string Lpn, string Name)
         {
             try
             {
-                await firebase
-                .Child("vehicle")
-                .PostAsync(new Vehicle() { 
-                    imei = Imei, name = Name, lpn = Lpn, user_id = User_id, vehicle_id = Vehicle_Id
-                });
+                FirebaseResponse response_vdetail = await ConnectDatabase.client.GetAsync("vehicle/detail");
+                PastValueVehi detail = response_vdetail.ResultAs<PastValueVehi>();
+                int vehi_number = Convert.ToInt32(detail.number);
+                bool is_exist = false;
+                for (int i=1;i<=vehi_number;i++)
+                {
+                    FirebaseResponse response_vehi = await ConnectDatabase.client.GetAsync("vehicle/" + i.ToString());
+                    VehicleAcc vehi_data = response_vehi.ResultAs<VehicleAcc>();
+                    if (vehi_data.imei==Imei)
+                    {
+                        is_exist = true;
+                        return false;
+                    }
+                }
+                if (!is_exist)
+                {
+                    vehi_number++;
+                    detail.number = vehi_number.ToString();
+                    VehicleAcc vehi = new VehicleAcc
+                    {
+                        imei = Imei,
+                        lpn = Lpn,
+                        name = Name,
+                        user_id = User_id.ToString(),
+                        vehicle_id = vehi_number.ToString()
+                    };
+                    FirebaseResponse response_createvehi = await ConnectDatabase.client.SetAsync("vehicle/" + vehi_number,vehi);
+                    FirebaseResponse response_detailvehi = await ConnectDatabase.client.UpdateAsync("vehicle/detail" , detail);
+                }
                 return true;
             }
             catch (Exception e)
             {
                 Debug.WriteLine($"Error:{e}");
                 return false;
+            }
+        }
+        
+        //Read all vehicle data
+        public static async Task<List<Vehicle>> GetAllVehis()
+        {
+            try
+            {
+                return (await firebase
+                .Child("vehicle")
+                .OnceAsync<Vehicle>()).Select(item =>
+                new Vehicle
+                {
+                    imei = item.Object.imei,
+                    lpn = item.Object.lpn,
+                    name = item.Object.name,
+                    user_id = item.Object.user_id,
+                    vehicle_id = item.Object.vehicle_id
+                })
+                .ToList();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Error:{e}");
+                return null;
             }
         }
     }
