@@ -203,7 +203,7 @@ namespace TheUltimateTrackingMobile
             view.FindViewById<TextView>(Resource.Id.txtTime).Text = timeText;
 
             LatLng myposition = new LatLng(Convert.ToDouble(locationList[number].lat), Convert.ToDouble(locationList[number].lon));
-            mainMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(myposition, 40));
+            mainMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(myposition, 18));
 
             return view;
         }
@@ -224,7 +224,7 @@ namespace TheUltimateTrackingMobile
             Spinner sp = (Spinner)sender;
             int number = e.Position;
             LatLng myposition = new LatLng(Convert.ToDouble(locationList[number].lat), Convert.ToDouble(locationList[number].lon));
-            mainMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(myposition, 25));
+            mainMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(myposition, 16));
         }
 
         private void Zoomout_Click(object sender, EventArgs e)
