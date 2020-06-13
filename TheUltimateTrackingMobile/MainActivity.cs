@@ -24,15 +24,18 @@ using Android.Text;
 using Android.Support.Design.Widget;
 using Firebase;
 using Java.Sql;
-
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
 namespace TheUltimateTrackingMobile
 {
+   
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, IOnMapReadyCallback, Android.Gms.Maps.GoogleMap.IInfoWindowAdapter, Android.Gms.Maps.GoogleMap.IOnInfoWindowClickListener
     {
         //Map
         GoogleMap mainMap;
-
+        public static int user_id = 0;
         //PermissionsRequest
         const int RequestID = 0;
         readonly string[] permissionsGroup =
@@ -54,6 +57,47 @@ namespace TheUltimateTrackingMobile
         Button zoomin;
         Button zoomout;
         Spinner vehicleFind;
+     
+        public class ConnectDatabase
+        {
+            public static IFirebaseConfig config = new FirebaseConfig
+            {
+                AuthSecret = "cOsfW43OgJtNzF6tTrSPO6jqkTj65ajlxpPfIWTw",
+                BasePath = "https://the-ultimate-tracking.firebaseio.com/"
+            };
+            public static IFirebaseClient client = new FireSharp.FirebaseClient(config);
+        }
+        public class User
+        {
+            public string email { get; set; }
+            public string password { get; set; }
+        }
+        public class PastValueVehi
+        {
+            public int number { get; set; }
+        }
+        private async void Startlocat_mOnStartComplete(object sender, OnStartLocationEventArgs e)
+        {
+            string user = e.Username;
+            string pass = e.Password;
+   
+            FirebaseResponse response_vdetail = await ConnectDatabase.client.GetAsync("user/detail");
+            PastValueVehi detail = response_vdetail.ResultAs<PastValueVehi>();
+            int vehi_number = Convert.ToInt32(detail.number);
+            for (int i = 1; i <= vehi_number; i++)
+            {
+                FirebaseResponse response_vehi = await ConnectDatabase.client.GetAsync("user/" + i.ToString());
+                User vehi_data = response_vehi.ResultAs<User>();
+                if ((vehi_data.email == user) && (vehi_data.password == pass))
+                {
+                    user_id = i;
+                    RetrieveVehicle();
+                    RetrieveLocation();
+                    ConnectControls();
+                    break;          
+                }
+            }
+        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -64,12 +108,11 @@ namespace TheUltimateTrackingMobile
 
             SupportMapFragment mapFragment = (SupportMapFragment)SupportFragmentManager.FindFragmentById(Resource.Id.map);
             mapFragment.GetMapAsync(this);
-
             CheckSpecialPermission();
-
-            RetrieveVehicle();
-            RetrieveLocation();
-            ConnectControls();
+            Android.App.FragmentTransaction trans = FragmentManager.BeginTransaction();
+            startlocation startlocat = new startlocation();
+            startlocat.Show(trans, "Start");
+            startlocat.mOnStartComplete += Startlocat_mOnStartComplete;
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

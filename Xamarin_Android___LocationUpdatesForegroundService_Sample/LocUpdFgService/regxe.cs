@@ -71,7 +71,8 @@ namespace LocUpdFgService
             string Name = edtName.Text;
             try
             {
-                int User_id=0;
+                int User_id = 0;
+                bool isexistuser = false;
                 FirebaseResponse response_vdetail = await ConnectDatabase.client.GetAsync("user/detail");
                 PastValueVehi detail = response_vdetail.ResultAs<PastValueVehi>();
                 int vehi_number = Convert.ToInt32(detail.number);
@@ -79,39 +80,44 @@ namespace LocUpdFgService
                 {
                     FirebaseResponse response_vehi = await ConnectDatabase.client.GetAsync("user/" + i.ToString());
                     User vehi_data = response_vehi.ResultAs<User>();
-                    if ((vehi_data.email == email)&&(vehi_data.password==pass))
+                    if ((vehi_data.email == email) && (vehi_data.password == pass))
                     {
                         User_id = i;
-                    }
-                }
-                FirebaseResponse response_vdetail1 = await ConnectDatabase.client.GetAsync("vehicle/detail");
-                PastValueVehi detail1 = response_vdetail1.ResultAs<PastValueVehi>();
-                int vehi_number1 = Convert.ToInt32(detail1.number);
-                bool is_exist = false;
-                for (int i = 1; i <= vehi_number1; i++)
-                {
-                    FirebaseResponse response_vehi = await ConnectDatabase.client.GetAsync("vehicle/" + i.ToString());
-                    VehicleAcc vehi_data = response_vehi.ResultAs<VehicleAcc>();
-                    if (vehi_data.imei == imei)
-                    {
-                        is_exist = true;
+                        isexistuser = true;
                         break;
                     }
                 }
-                if (!is_exist)
+                if (isexistuser)
                 {
-                    vehi_number++;
-                    detail.number = vehi_number.ToString();
-                    VehicleAcc vehi = new VehicleAcc
+                    FirebaseResponse response_vdetail1 = await ConnectDatabase.client.GetAsync("vehicle/detail");
+                    PastValueVehi detail1 = response_vdetail1.ResultAs<PastValueVehi>();
+                    int vehi_number1 = Convert.ToInt32(detail1.number);
+                    bool is_exist = false;
+                    for (int i = 1; i <= vehi_number1; i++)
                     {
-                        imei = imei,
-                        lpn = bsx,
-                        name = Name,
-                        user_id = User_id.ToString(),
-                        vehicle_id = vehi_number.ToString()
-                    };
-                    FirebaseResponse response_createvehi = await ConnectDatabase.client.SetAsync("vehicle/" + vehi_number, vehi);
-                    FirebaseResponse response_detailvehi = await ConnectDatabase.client.UpdateAsync("vehicle/detail", detail);
+                        FirebaseResponse response_vehi = await ConnectDatabase.client.GetAsync("vehicle/" + i.ToString());
+                        VehicleAcc vehi_data = response_vehi.ResultAs<VehicleAcc>();
+                        if (vehi_data.imei == imei)
+                        {
+                            is_exist = true;
+                            break;
+                        }
+                    }
+                    if (!is_exist)
+                    {
+                        vehi_number1++;
+                        detail.number = vehi_number1.ToString();
+                        VehicleAcc vehi = new VehicleAcc
+                        {
+                            imei = imei,
+                            lpn = bsx,
+                            name = Name,
+                            user_id = User_id.ToString(),
+                            vehicle_id = vehi_number1.ToString()
+                        };
+                        FirebaseResponse response_createvehi = await ConnectDatabase.client.SetAsync("vehicle/" + vehi_number1, vehi);
+                        FirebaseResponse response_detailvehi = await ConnectDatabase.client.UpdateAsync("vehicle/detail", detail);
+                    }
                 }
             }
             catch (Exception ex)

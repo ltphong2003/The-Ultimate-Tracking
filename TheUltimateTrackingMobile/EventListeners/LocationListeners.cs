@@ -13,6 +13,9 @@ using Firebase.Database;
 using Firebase.Events;
 using TheUltimateTrackingMobile.Data;
 using TheUltimateTrackingMobile.Helpers;
+using FireSharp.Interfaces;
+using FireSharp.Config;
+using FireSharp.Response;
 
 namespace TheUltimateTrackingMobile.EventListeners
 {
@@ -31,7 +34,15 @@ namespace TheUltimateTrackingMobile.EventListeners
         {
 
         }
-
+        public class ConnectDatabase
+        {
+            public static IFirebaseConfig config = new FirebaseConfig
+            {
+                AuthSecret = "cOsfW43OgJtNzF6tTrSPO6jqkTj65ajlxpPfIWTw",
+                BasePath = "https://the-ultimate-tracking.firebaseio.com/"
+            };
+            public static IFirebaseClient client = new FireSharp.FirebaseClient(config);
+        }
         public void OnDataChange(DataSnapshot snapshot)
         {
             if (snapshot.Value != null)
@@ -51,8 +62,9 @@ namespace TheUltimateTrackingMobile.EventListeners
                     if (locationData.Child("speed") != null) location.speed = locationData.Child("speed").Value.ToString();
                     if (locationData.Child("time") != null) location.time = locationData.Child("time").Value.ToString();
                     if (locationData.Child("vehicle_id") != null) location.vehicle_id = locationData.Child("vehicle_id").Value.ToString();
-
-                    locationList.Add(location);
+                
+                      locationList.Add(location);
+                    
                 }
                 locationDataRetrieved.Invoke(this, new locationDataEventArgs { Location = locationList });
             }

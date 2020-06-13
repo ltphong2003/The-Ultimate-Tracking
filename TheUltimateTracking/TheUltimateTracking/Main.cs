@@ -48,8 +48,8 @@ namespace TheUltimateTracking
             {
 
                 // Draw a different background color, and don't paint a focus rectangle.
-                _textBrush = new SolidBrush(Color.Red);
-                g.FillRectangle(Brushes.Gray, e.Bounds);
+                _textBrush = new SolidBrush(Color.White);
+                g.FillRectangle(Brushes.DarkGray, e.Bounds);
             }
             else
             {
@@ -58,7 +58,7 @@ namespace TheUltimateTracking
             }
 
             // Use our own font.
-            Font _tabFont = new Font("Arial", 20.0f, FontStyle.Bold, GraphicsUnit.Pixel);
+            Font _tabFont = new Font("Californian FB", 20.0f, FontStyle.Bold, GraphicsUnit.Pixel);
 
             // Draw string. Center the text.
             StringFormat _stringFlags = new StringFormat();
@@ -197,13 +197,13 @@ namespace TheUltimateTracking
                         VehicleNow vnow = response.ResultAs<VehicleNow>();
                         GMarkerArrow marker1 = new GMarkerArrow(new PointLatLng(vnow.lat, vnow.lon));
                         string speed1 = Convert.ToInt32(vnow.speed).ToString();
-                        marker1.ToolTipText = "Information" + '\n' + "Name: " + a.name + '\n' + "License: " + a.lpn + '\n'+ "Address: " + vnow.address +'\n'+"Speed: " + speed1+" m/s"+ '\n' + "Last update: " + vnow.time;
-                        marker1.ToolTip.Fill = Brushes.White;
-                        marker1.ToolTip.Foreground = Brushes.Black;
+                        marker1.ToolTipText = "Information:" + '\n' + '\n' + "Name: " + a.name + '\n' + "License: " + a.lpn + '\n' + "Address: " + vnow.address + '\n' + "Speed: " + speed1 + " m/s" + '\n' + "Last update: " + vnow.time;
+                        marker1.ToolTip.Fill = Brushes.Maroon;
+                        marker1.ToolTip.Foreground = Brushes.Maroon;
                         marker1.ToolTip.Stroke = Pens.White;
-                        marker1.ToolTip.Format.Alignment = StringAlignment.Far;
+                        marker1.ToolTip.Format.Alignment = StringAlignment.Near;
                         marker1.Bearing = vnow.direction; // Rotation angle
-                        marker1.Fill = new SolidBrush(Color.FromArgb(155, Color.Blue)); // Arrow color
+                        marker1.Fill = new SolidBrush(Color.FromArgb(155, Color.Orange)); // Arrow color
                         markers.Markers.Add(marker1);
                     }
                     gmap.Overlays.Add(markers);
@@ -219,13 +219,13 @@ namespace TheUltimateTracking
                         VehicleNow vnow = response.ResultAs<VehicleNow>();
                         GMarkerArrow marker1 = new GMarkerArrow(new PointLatLng(vnow.lat, vnow.lon));
                         string speed1 = Convert.ToInt32(vnow.speed).ToString();
-                        marker1.ToolTipText = "Information" + '\n' + "Name: " + a.name + '\n' + "License: " + a.lpn + '\n' + "Address: " + vnow.address+ '\n'+"Speed: " + speed1+" m/s" + '\n' + "Last update: " + vnow.time;
-                        marker1.ToolTip.Fill = Brushes.Black;
+                        marker1.ToolTipText = "Information:" + '\n' + '\n' + "Name: " + a.name + '\n' + "License: " + a.lpn + '\n' + "Address: " + vnow.address + '\n' + "Speed: " + speed1 + " m/s" + '\n' + "Last update: " + vnow.time;
+                        marker1.ToolTip.Fill = Brushes.Maroon;
                         marker1.ToolTip.Foreground = Brushes.White;
-                        marker1.ToolTip.Stroke = Pens.Black;
+                        marker1.ToolTip.Stroke = Pens.White;
                         marker1.ToolTip.Format.Alignment = StringAlignment.Near;
                         marker1.Bearing = vnow.direction; // Rotation angle
-                        marker1.Fill = new SolidBrush(Color.FromArgb(155, Color.Blue)); // Arrow color
+                        marker1.Fill = new SolidBrush(Color.FromArgb(155, Color.Navy)); // Arrow color
                         markers.Markers[i - 1] = marker1;
                     }
                     gmap.Overlays.Add(markers);

@@ -50,6 +50,7 @@
             this.cbbtracking = new System.Windows.Forms.ComboBox();
             this.GMapTracking = new GMap.NET.WindowsForms.GMapControl();
             this.SettingPage = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
             this.txtname = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -63,6 +64,8 @@
             this.txtnewpassconfirm = new System.Windows.Forms.TextBox();
             this.txtnewpass = new System.Windows.Forms.TextBox();
             this.txtpass = new System.Windows.Forms.TextBox();
+            this.AboutPage = new System.Windows.Forms.TabPage();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.imglIcon = new System.Windows.Forms.ImageList(this.components);
             this.timernow = new System.Windows.Forms.Timer(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -72,6 +75,8 @@
             this.TrackingPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objtracking)).BeginInit();
             this.SettingPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.AboutPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -80,6 +85,7 @@
             this.tabControl1.Controls.Add(this.HomePage);
             this.tabControl1.Controls.Add(this.TrackingPage);
             this.tabControl1.Controls.Add(this.SettingPage);
+            this.tabControl1.Controls.Add(this.AboutPage);
             this.tabControl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabControl1.ImageList = this.imglIcon;
             this.tabControl1.ItemSize = new System.Drawing.Size(100, 120);
@@ -109,28 +115,30 @@
             // 
             // btnFind
             // 
-            this.btnFind.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFind.BackColor = System.Drawing.Color.Maroon;
+            this.btnFind.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFind.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnFind.Location = new System.Drawing.Point(733, 661);
             this.btnFind.Name = "btnFind";
-            this.btnFind.Size = new System.Drawing.Size(179, 36);
+            this.btnFind.Size = new System.Drawing.Size(179, 34);
             this.btnFind.TabIndex = 7;
             this.btnFind.Text = "Find";
-            this.btnFind.UseVisualStyleBackColor = true;
+            this.btnFind.UseVisualStyleBackColor = false;
             this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(6, 664);
+            this.label3.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(27, 664);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(147, 26);
+            this.label3.Size = new System.Drawing.Size(135, 26);
             this.label3.TabIndex = 5;
             this.label3.Text = "Select vehicle";
             // 
             // cbbcar
             // 
-            this.cbbcar.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbbcar.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbbcar.FormattingEnabled = true;
             this.cbbcar.Location = new System.Drawing.Point(174, 661);
             this.cbbcar.Name = "cbbcar";
@@ -185,13 +193,15 @@
             // 
             // btnclear
             // 
-            this.btnclear.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnclear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnclear.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnclear.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnclear.Location = new System.Drawing.Point(256, 187);
             this.btnclear.Name = "btnclear";
             this.btnclear.Size = new System.Drawing.Size(109, 38);
             this.btnclear.TabIndex = 10;
             this.btnclear.Text = "Clear";
-            this.btnclear.UseVisualStyleBackColor = true;
+            this.btnclear.UseVisualStyleBackColor = false;
             this.btnclear.Click += new System.EventHandler(this.btnclear_Click);
             // 
             // objtracking
@@ -205,6 +215,7 @@
             this.AddressColumn,
             this.SpeedColumn});
             this.objtracking.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objtracking.Font = new System.Drawing.Font("Californian FB", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.objtracking.HideSelection = false;
             this.objtracking.Location = new System.Drawing.Point(11, 231);
             this.objtracking.Name = "objtracking";
@@ -239,39 +250,43 @@
             // 
             // btncarrun
             // 
-            this.btncarrun.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncarrun.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.btncarrun.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btncarrun.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btncarrun.Location = new System.Drawing.Point(143, 187);
             this.btncarrun.Name = "btncarrun";
             this.btncarrun.Size = new System.Drawing.Size(107, 38);
             this.btncarrun.TabIndex = 7;
             this.btncarrun.Text = "Run";
-            this.btncarrun.UseVisualStyleBackColor = true;
+            this.btncarrun.UseVisualStyleBackColor = false;
             this.btncarrun.Click += new System.EventHandler(this.btncarrun_Click);
             // 
             // btnshowpath
             // 
-            this.btnshowpath.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnshowpath.BackColor = System.Drawing.Color.Maroon;
+            this.btnshowpath.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnshowpath.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnshowpath.Location = new System.Drawing.Point(11, 187);
             this.btnshowpath.Name = "btnshowpath";
             this.btnshowpath.Size = new System.Drawing.Size(126, 38);
             this.btnshowpath.TabIndex = 6;
             this.btnshowpath.Text = "Show path";
-            this.btnshowpath.UseVisualStyleBackColor = true;
+            this.btnshowpath.UseVisualStyleBackColor = false;
             this.btnshowpath.Click += new System.EventHandler(this.btnshowpath_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(6, 84);
+            this.label2.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(14, 99);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(121, 26);
+            this.label2.Size = new System.Drawing.Size(112, 26);
             this.label2.TabIndex = 5;
             this.label2.Text = "Select date";
             // 
             // dateTimetracking
             // 
-            this.dateTimetracking.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimetracking.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimetracking.Location = new System.Drawing.Point(11, 129);
             this.dateTimetracking.Name = "dateTimetracking";
             this.dateTimetracking.Size = new System.Drawing.Size(354, 32);
@@ -280,18 +295,18 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(6, 6);
+            this.label1.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(14, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(147, 26);
+            this.label1.Size = new System.Drawing.Size(135, 26);
             this.label1.TabIndex = 3;
             this.label1.Text = "Select vehicle";
             // 
             // cbbtracking
             // 
-            this.cbbtracking.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbbtracking.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbbtracking.FormattingEnabled = true;
-            this.cbbtracking.Location = new System.Drawing.Point(11, 35);
+            this.cbbtracking.Location = new System.Drawing.Point(11, 51);
             this.cbbtracking.Name = "cbbtracking";
             this.cbbtracking.Size = new System.Drawing.Size(354, 34);
             this.cbbtracking.TabIndex = 2;
@@ -324,6 +339,7 @@
             // 
             // SettingPage
             // 
+            this.SettingPage.Controls.Add(this.pictureBox1);
             this.SettingPage.Controls.Add(this.button1);
             this.SettingPage.Controls.Add(this.txtname);
             this.SettingPage.Controls.Add(this.label9);
@@ -337,6 +353,7 @@
             this.SettingPage.Controls.Add(this.txtnewpassconfirm);
             this.SettingPage.Controls.Add(this.txtnewpass);
             this.SettingPage.Controls.Add(this.txtpass);
+            this.SettingPage.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SettingPage.ImageIndex = 2;
             this.SettingPage.Location = new System.Drawing.Point(124, 4);
             this.SettingPage.Name = "SettingPage";
@@ -345,20 +362,31 @@
             this.SettingPage.Text = "Setting";
             this.SettingPage.UseVisualStyleBackColor = true;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(433, 442);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(210, 202);
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(340, 368);
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
+            this.button1.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.button1.Location = new System.Drawing.Point(476, 369);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(135, 39);
             this.button1.TabIndex = 12;
             this.button1.Text = "Change";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtname
             // 
-            this.txtname.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtname.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtname.Location = new System.Drawing.Point(349, 308);
             this.txtname.Name = "txtname";
             this.txtname.Size = new System.Drawing.Size(382, 32);
@@ -368,16 +396,16 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(25, 311);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(71, 26);
+            this.label9.Size = new System.Drawing.Size(67, 26);
             this.label9.TabIndex = 10;
             this.label9.Text = "Name";
             // 
             // txtlicense
             // 
-            this.txtlicense.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtlicense.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtlicense.Location = new System.Drawing.Point(349, 249);
             this.txtlicense.Name = "txtlicense";
             this.txtlicense.Size = new System.Drawing.Size(382, 32);
@@ -386,26 +414,26 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(25, 252);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(167, 26);
+            this.label8.Size = new System.Drawing.Size(157, 26);
             this.label8.TabIndex = 8;
             this.label8.Text = "License number";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(25, 202);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(84, 26);
+            this.label7.Size = new System.Drawing.Size(81, 26);
             this.label7.TabIndex = 7;
             this.label7.Text = "Vehicle";
             // 
             // cbbvehicle_setting
             // 
-            this.cbbvehicle_setting.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbbvehicle_setting.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbbvehicle_setting.FormattingEnabled = true;
             this.cbbvehicle_setting.Location = new System.Drawing.Point(349, 199);
             this.cbbvehicle_setting.Name = "cbbvehicle_setting";
@@ -416,36 +444,36 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(25, 143);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(280, 26);
+            this.label6.Size = new System.Drawing.Size(264, 26);
             this.label6.TabIndex = 5;
             this.label6.Text = "New password confirmation";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(25, 90);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(155, 26);
+            this.label5.Size = new System.Drawing.Size(141, 26);
             this.label5.TabIndex = 4;
             this.label5.Text = "New password";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(25, 43);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(108, 26);
+            this.label4.Size = new System.Drawing.Size(96, 26);
             this.label4.TabIndex = 3;
             this.label4.Text = "Password";
             // 
             // txtnewpassconfirm
             // 
-            this.txtnewpassconfirm.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtnewpassconfirm.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtnewpassconfirm.Location = new System.Drawing.Point(349, 140);
             this.txtnewpassconfirm.Name = "txtnewpassconfirm";
             this.txtnewpassconfirm.PasswordChar = '*';
@@ -454,7 +482,7 @@
             // 
             // txtnewpass
             // 
-            this.txtnewpass.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtnewpass.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtnewpass.Location = new System.Drawing.Point(349, 90);
             this.txtnewpass.Name = "txtnewpass";
             this.txtnewpass.PasswordChar = '*';
@@ -463,12 +491,32 @@
             // 
             // txtpass
             // 
-            this.txtpass.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtpass.Font = new System.Drawing.Font("Californian FB", 13.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtpass.Location = new System.Drawing.Point(349, 43);
             this.txtpass.Name = "txtpass";
             this.txtpass.PasswordChar = '*';
             this.txtpass.Size = new System.Drawing.Size(382, 32);
             this.txtpass.TabIndex = 0;
+            // 
+            // AboutPage
+            // 
+            this.AboutPage.Controls.Add(this.richTextBox1);
+            this.AboutPage.Location = new System.Drawing.Point(124, 4);
+            this.AboutPage.Name = "AboutPage";
+            this.AboutPage.Size = new System.Drawing.Size(935, 711);
+            this.AboutPage.TabIndex = 3;
+            this.AboutPage.Text = "About us";
+            this.AboutPage.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Enabled = false;
+            this.richTextBox1.Font = new System.Drawing.Font("Californian FB", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(936, 712);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
             // imglIcon
             // 
@@ -490,10 +538,10 @@
             // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1067, 718);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Main";
             this.Text = "The Ultimate Tracking";
@@ -506,6 +554,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.objtracking)).EndInit();
             this.SettingPage.ResumeLayout(false);
             this.SettingPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.AboutPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -549,6 +599,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cbbvehicle_setting;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabPage AboutPage;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
