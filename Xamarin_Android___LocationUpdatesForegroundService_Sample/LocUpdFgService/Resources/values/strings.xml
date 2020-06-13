@@ -12,7 +12,7 @@
 -->
 
 <resources>
-    <string name="app_name">The Ultimate Tracking</string>
+    <string name="app_name">Location Updates ForegroundService</string>
 
     <string name="launch_activity">Launch activity</string>
     <string name="location_unknown">Location unknown</string>
@@ -25,6 +25,8 @@
     <string name="ok">OK</string>
     <string name="request_location_updates">Request location updates</string>
     <string name="remove_location_updates">Remove location updates</string>
-
+  <string name="vehicle_registration">Register vehicle</string>
     <string name="location_updated">Location Updated: %1$s</string>
+  <string name="Start">Bắt đầu</string>
+  <string name="Reg">Đăng ký</string>
 </resources>

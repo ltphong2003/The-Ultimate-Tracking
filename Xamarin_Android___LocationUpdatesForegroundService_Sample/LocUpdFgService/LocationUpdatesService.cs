@@ -36,21 +36,21 @@ namespace LocUpdFgService
 		public string number { get; set; }
 	}
 
-		/**
-		 * A bound and started service that is promoted to a foreground service when location updates have
-		 * been requested and all clients unbind.
-		 *
-		 * For apps running in the background on "O" devices, location is computed only once every 10
-		 * minutes and delivered batched every 30 minutes. This restriction applies even to apps
-		 * targeting "N" or lower which are run on "O" devices.
-		 *
-		 * This sample show how to use a long-running service for location updates. When an activity is
-		 * bound to this service, frequent location updates are permitted. When the activity is removed
-		 * from the foreground, the service promotes itself to a foreground service, and location updates
-		 * continue. When the activity comes back to the foreground, the foreground service stops, and the
-		 * notification assocaited with that service is removed.
-		 */
-		[Service(Label = "LocationUpdatesService", Enabled = true, Exported = true)]
+	/**
+	 * A bound and started service that is promoted to a foreground service when location updates have
+	 * been requested and all clients unbind.
+	 *
+	 * For apps running in the background on "O" devices, location is computed only once every 10
+	 * minutes and delivered batched every 30 minutes. This restriction applies even to apps
+	 * targeting "N" or lower which are run on "O" devices.
+	 *
+	 * This sample show how to use a long-running service for location updates. When an activity is
+	 * bound to this service, frequent location updates are permitted. When the activity is removed
+	 * from the foreground, the service promotes itself to a foreground service, and location updates
+	 * continue. When the activity comes back to the foreground, the foreground service stops, and the
+	 * notification assocaited with that service is removed.
+	 */
+	[Service(Label = "LocationUpdatesService", Enabled = true, Exported = true)]
 	[IntentFilter(new string[] { "com.xamarin.LocUpdFgService.LocationUpdatesService" })]
 	public class LocationUpdatesService : Service
 	{
@@ -60,7 +60,7 @@ namespace LocUpdFgService
 
 		string ChannelId = "channel_01";
 
-        public const string ActionBroadcast = LocationPackageName + ".broadcast";
+		public const string ActionBroadcast = LocationPackageName + ".broadcast";
 		public const string ExtraLocation = LocationPackageName + ".location";
 		const string ExtraStartedFromNotification = LocationPackageName + ".started_from_notification";
 		string vehicle_id1;
@@ -112,7 +112,7 @@ namespace LocUpdFgService
 		/**
 		 * The current location.
 		 */
-		public Android.Locations.Location Location=null;
+		public Android.Locations.Location Location = null;
 
 		public LocationUpdatesService()
 		{
@@ -136,20 +136,20 @@ namespace LocUpdFgService
 			LocationCallback = new LocationCallbackImpl { Service = this };
 
 			CreateLocationRequest();
-            GetLastLocation();
+			GetLastLocation();
 
 			HandlerThread handlerThread = new HandlerThread(Tag);
 			handlerThread.Start();
 			ServiceHandler = new Handler(handlerThread.Looper);
-			NotificationManager = (NotificationManager) GetSystemService(NotificationService);
+			NotificationManager = (NotificationManager)GetSystemService(NotificationService);
 
-		    if (Build.VERSION.SdkInt >= Build.VERSION_CODES.O)
-		    {
-		        string name = GetString(Resource.String.app_name);
-		        NotificationChannel mChannel = new NotificationChannel(ChannelId, name, NotificationManager.ImportanceDefault);
-		        NotificationManager.CreateNotificationChannel(mChannel);
-		    }
-        }
+			if (Build.VERSION.SdkInt >= Build.VERSION_CODES.O)
+			{
+				string name = GetString(Resource.String.app_name);
+				NotificationChannel mChannel = new NotificationChannel(ChannelId, name, NotificationManager.ImportanceDefault);
+				NotificationManager.CreateNotificationChannel(mChannel);
+			}
+		}
 		public bool kt = false;
 		public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
 		{
@@ -234,10 +234,13 @@ namespace LocUpdFgService
 			Intent intent = new Intent(ApplicationContext, typeof(LocationUpdatesService));
 			intent.PutExtra("vehicle_id", vehicle_id);
 			StartService(intent);
-	        try {
-	            FusedLocationClient.RequestLocationUpdates(LocationRequest, LocationCallback, Looper.MyLooper());
-	        } catch (SecurityException unlikely) {
-	            Utils.SetRequestingLocationUpdates(this, false);
+			try
+			{
+				FusedLocationClient.RequestLocationUpdates(LocationRequest, LocationCallback, Looper.MyLooper());
+			}
+			catch (SecurityException unlikely)
+			{
+				Utils.SetRequestingLocationUpdates(this, false);
 				Log.Error(Tag, "Lost location permission. Could not request updates. " + unlikely);
 			}
 		}
@@ -262,65 +265,65 @@ namespace LocUpdFgService
 			}
 		}
 
-        /**
+		/**
 	     * Returns the {@link NotificationCompat} used as part of the foreground service.
 	     */
-        Notification GetNotification()
-        {
-            Intent intent = new Intent(this, typeof(LocationUpdatesService));
+		Notification GetNotification()
+		{
+			Intent intent = new Intent(this, typeof(LocationUpdatesService));
 
-            var text = Utils.GetLocationText(Location);
+			var text = Utils.GetLocationText(Location);
 
-            // Extra to help us figure out if we arrived in onStartCommand via the notification or not.
-            intent.PutExtra(ExtraStartedFromNotification, true);
+			// Extra to help us figure out if we arrived in onStartCommand via the notification or not.
+			intent.PutExtra(ExtraStartedFromNotification, true);
 
-            // The PendingIntent that leads to a call to onStartCommand() in this service.
-            var servicePendingIntent = PendingIntent.GetService(this, 0, intent, PendingIntentFlags.UpdateCurrent);
+			// The PendingIntent that leads to a call to onStartCommand() in this service.
+			var servicePendingIntent = PendingIntent.GetService(this, 0, intent, PendingIntentFlags.UpdateCurrent);
 
-            // The PendingIntent to launch activity.
-            var activityPendingIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(MainActivity)), 0);
+			// The PendingIntent to launch activity.
+			var activityPendingIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(MainActivity)), 0);
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .AddAction(Resource.Drawable.ic_launch, GetString(Resource.String.launch_activity),
-                    activityPendingIntent)
-                .AddAction(Resource.Drawable.ic_cancel, GetString(Resource.String.remove_location_updates),
-                    servicePendingIntent)
-                .SetContentText(text)
-                .SetContentTitle(Utils.GetLocationTitle(this))
-                .SetOngoing(true)
-                .SetPriority((int) NotificationPriority.High)
-                .SetSmallIcon(Resource.Drawable.GPS)
-                .SetTicker(text)
-                .SetWhen(JavaSystem.CurrentTimeMillis());
+			NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+				.AddAction(Resource.Drawable.ic_launch, GetString(Resource.String.launch_activity),
+					activityPendingIntent)
+				.AddAction(Resource.Drawable.ic_cancel, GetString(Resource.String.remove_location_updates),
+					servicePendingIntent)
+				.SetContentText(text)
+				.SetContentTitle(Utils.GetLocationTitle(this))
+				.SetOngoing(true)
+				.SetPriority((int)NotificationPriority.High)
+				.SetSmallIcon(Resource.Drawable.GPS)
+				.SetTicker(text)
+				.SetWhen(JavaSystem.CurrentTimeMillis());
 
-            if (Build.VERSION.SdkInt>= Build.VERSION_CODES.O)
-            {
-                builder.SetChannelId(ChannelId);
-            }
+			if (Build.VERSION.SdkInt >= Build.VERSION_CODES.O)
+			{
+				builder.SetChannelId(ChannelId);
+			}
 
-            return builder.Build();
-        }
+			return builder.Build();
+		}
 
-        private void GetLastLocation()
-        {
-            try
-            {
-                FusedLocationClient.LastLocation.AddOnCompleteListener(new GetLastLocationOnCompleteListener { Service = this });
-            }
-            catch (SecurityException unlikely)
-            {
-                Log.Error(Tag, "Lost location permission." + unlikely);
-            }
-        }
+		private void GetLastLocation()
+		{
+			try
+			{
+				FusedLocationClient.LastLocation.AddOnCompleteListener(new GetLastLocationOnCompleteListener { Service = this });
+			}
+			catch (SecurityException unlikely)
+			{
+				Log.Error(Tag, "Lost location permission." + unlikely);
+			}
+		}
 
-        public async void OnNewLocation(Android.Locations.Location location)
+		public async void OnNewLocation(Android.Locations.Location location)
 		{
 			Log.Info(Tag, "New location: " + location);
 			Android.Locations.Location locat = Location;
 			float[] result = new float[1];
 			if (kt)
-			Android.Locations.Location.DistanceBetween(locat.Latitude, locat.Longitude, location.Latitude, location.Longitude, result);
-			if (((!kt)||(result[0]>=2))&&(location.Speed>0))
+				Android.Locations.Location.DistanceBetween(locat.Latitude, locat.Longitude, location.Latitude, location.Longitude, result);
+			if (((!kt) || (result[0] >= 2)) && (location.Speed > 0))
 			{
 				Location = location;
 				kt = true;
@@ -336,7 +339,7 @@ namespace LocUpdFgService
 				try
 				{
 
-					var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude,location.Longitude);
+					var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
 
 					var placemark = placemarks.FirstOrDefault();
 					if (placemark != null)
@@ -352,14 +355,14 @@ namespace LocUpdFgService
 							$"SubLocality:     {placemark.SubLocality}\n" +
 							$"SubThoroughfare: {placemark.SubThoroughfare}\n" +
 							$"Thoroughfare:    {placemark.Thoroughfare}\n";
-						address1 = placemark.SubThoroughfare+" "+placemark.Thoroughfare+","+'\n'+placemark.SubAdminArea+", "+placemark.AdminArea+", "+placemark.CountryName;
+						address1 = placemark.SubThoroughfare + " " + placemark.Thoroughfare + "," + '\n' + placemark.SubAdminArea + ", " + placemark.AdminArea + ", " + placemark.CountryName;
 					}
 				}
 				catch (FeatureNotSupportedException fnsEx)
 				{
 					// Feature not supported on device
 				}
-				catch (System.Exception  ex)
+				catch (System.Exception ex)
 				{
 					// Handle exception that may have occurred in geocoding
 				}
@@ -470,7 +473,7 @@ namespace LocUpdFgService
 	     */
 		public bool ServiceIsRunningInForeground(Context context)
 		{
-			var manager = (ActivityManager) context.GetSystemService(ActivityService);
+			var manager = (ActivityManager)context.GetSystemService(ActivityService);
 			foreach (var service in manager.GetRunningServices(Integer.MaxValue))
 			{
 				if (Class.Name.Equals(service.Service.ClassName))
@@ -504,20 +507,20 @@ namespace LocUpdFgService
 		}
 	}
 
-    public class GetLastLocationOnCompleteListener : Java.Lang.Object, IOnCompleteListener
-    {
-        public LocationUpdatesService Service { get; set; }
+	public class GetLastLocationOnCompleteListener : Java.Lang.Object, IOnCompleteListener
+	{
+		public LocationUpdatesService Service { get; set; }
 
-        public void OnComplete(Task task)
-        {
-            if (task.IsSuccessful && task.Result != null)
-            {
-                Service.Location = (Android.Locations.Location)task.Result;
-            }
-            else
-            {
-                Log.Warn(Service.Tag, "Failed to get location.");
-            }
-        }
-    }
+		public void OnComplete(Task task)
+		{
+			if (task.IsSuccessful && task.Result != null)
+			{
+				Service.Location = (Android.Locations.Location)task.Result;
+			}
+			else
+			{
+				Log.Warn(Service.Tag, "Failed to get location.");
+			}
+		}
+	}
 }

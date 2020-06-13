@@ -12,6 +12,13 @@ using Android.Support.Design.Widget;
 using Android.Net;
 using Android.Locations;
 using Android.Support.V7.App;
+using Android.Telephony;
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace LocUpdFgService
 {
@@ -34,7 +41,7 @@ namespace LocUpdFgService
 	 * activity from the notification. The user can also remove location updates directly from the
 	 * notification. This dismisses the notification and stops the service.
 	 */
-	[Activity(Label = "The Ultimate Tracking", Icon = "@mipmap/GPS",MainLauncher = true)]
+	[Activity(Label = "The Ultimate Tracking", Icon = "@mipmap/GPS", MainLauncher = true)]
 	public class MainActivity : AppCompatActivity, ISharedPreferencesOnSharedPreferenceChangeListener
 	{
 		const string Tag = "MainActivity";
@@ -54,6 +61,7 @@ namespace LocUpdFgService
 		// UI elements.
 		Button RequestLocationUpdatesButton;
 		Button RemoveLocationUpdatesButton;
+		Button RegisterVehicleButton;
 
 		// Monitors the state of the connection to the service.
 		CustomServiceConnection ServiceConnection;
@@ -62,7 +70,7 @@ namespace LocUpdFgService
 			public MainActivity Activity { get; set; }
 			public void OnServiceConnected(ComponentName name, IBinder service)
 			{
-				LocationUpdatesServiceBinder binder = (LocationUpdatesServiceBinder) service;
+				LocationUpdatesServiceBinder binder = (LocationUpdatesServiceBinder)service;
 				Activity.Service = binder.GetLocationUpdatesService();
 				Activity.Bound = true;
 			}
@@ -78,7 +86,7 @@ namespace LocUpdFgService
 		{
 			base.OnCreate(savedInstanceState);
 
-			myReceiver = new MyReceiver {Context = this};
+			myReceiver = new MyReceiver { Context = this };
 			ServiceConnection = new CustomServiceConnection { Activity = this };
 
 			SetContentView(Resource.Layout.activity_main);
@@ -92,6 +100,55 @@ namespace LocUpdFgService
 				}
 			}
 		}
+		public class VehicleAcc
+		{
+			public string imei { get; set; }
+			public string lpn { get; set; }
+			public string name { get; set; }
+			public string user_id { get; set; }
+			public string vehicle_id { get; set; }
+		}
+		public class PastValueVehi
+		{
+			public int number { get; set; }
+		}
+		public class User
+		{
+			public string email { get; set; }
+			public string password { get; set; }
+		}
+		public class ConnectDatabase
+		{
+			public static IFirebaseConfig config = new FirebaseConfig
+			{
+				AuthSecret = "cOsfW43OgJtNzF6tTrSPO6jqkTj65ajlxpPfIWTw",
+				BasePath = "https://the-ultimate-tracking.firebaseio.com/"
+			};
+			public static IFirebaseClient client = new FireSharp.FirebaseClient(config);
+		}
+		private async void Startlocat_mOnStartComplete(object sender, OnStartLocationEventArgs e)
+		{
+			string user = e.Username;
+			string pass = e.Password;
+			TelephonyManager mTelephonyMgr;
+			//Telephone Number  
+			mTelephonyMgr = (TelephonyManager)Android.App.Application.Context.GetSystemService(Android.Content.Context.TelephonyService);
+			//IMEI number  
+			string  m_deviceId = mTelephonyMgr.DeviceId;
+			FirebaseResponse response_vdetail1 = await ConnectDatabase.client.GetAsync("vehicle/detail");
+			PastValueVehi detail1 = response_vdetail1.ResultAs<PastValueVehi>();
+			int vehi_number1 = detail1.number;
+			bool is_exist = false;
+			for (int i = 1; i <= vehi_number1; i++)
+			{
+				FirebaseResponse response_vehi = await ConnectDatabase.client.GetAsync("vehicle/" + i.ToString());
+				VehicleAcc vehi_data = response_vehi.ResultAs<VehicleAcc>();
+				if (vehi_data.imei == m_deviceId)
+				{
+					Service.RequestLocationUpdates(vehi_data.vehicle_id);
+				}
+			}
+		}
 
 		protected override void OnStart()
 		{
@@ -101,7 +158,7 @@ namespace LocUpdFgService
 
 			RequestLocationUpdatesButton = FindViewById(Resource.Id.request_location_updates_button) as Button;
 			RemoveLocationUpdatesButton = FindViewById(Resource.Id.remove_location_updates_button) as Button;
-
+			RegisterVehicleButton = FindViewById(Resource.Id.vehicle_registration_button) as Button;
 			RequestLocationUpdatesButton.Click += (sender, e) => {
 				if (!CheckPermissions())
 				{
@@ -109,12 +166,21 @@ namespace LocUpdFgService
 				}
 				else
 				{
-					Service.RequestLocationUpdates("1");
+					Android.App.FragmentTransaction trans = FragmentManager.BeginTransaction();
+					startlocation startlocat = new startlocation();
+					startlocat.Show(trans, "Start");
+					startlocat.mOnStartComplete += Startlocat_mOnStartComplete;
+					
 				}
 			};
 
 			RemoveLocationUpdatesButton.Click += (sender, e) => {
 				Service.RemoveLocationUpdates();
+			};
+			RegisterVehicleButton.Click += (sender, e) => {
+				Android.App.FragmentTransaction trans = FragmentManager.BeginTransaction();
+				regxe reg = new regxe();
+				reg.Show(trans, "Đăng ký xe");
 			};
 
 			// Restore the state of the buttons when the activity (re)launches.
@@ -164,7 +230,7 @@ namespace LocUpdFgService
 
 		void RequestPermissions()
 		{
-			var shouldProvideRationale = ActivityCompat.ShouldShowRequestPermissionRationale(this, 
+			var shouldProvideRationale = ActivityCompat.ShouldShowRequestPermissionRationale(this,
 				Manifest.Permission.AccessFineLocation);
 
 			// Provide an additional rationale to the user. This would happen if the user denied the
@@ -176,13 +242,13 @@ namespace LocUpdFgService
 						FindViewById(Resource.Id.activity_main),
 						Resource.String.permission_rationale,
 						Snackbar.LengthIndefinite)
-				        .SetAction(Resource.String.ok, (obj) => {
+						.SetAction(Resource.String.ok, (obj) => {
 							// Request permission
 							ActivityCompat.RequestPermissions(this,
-					                new string[] { Manifest.Permission.AccessFineLocation },
-					                RequestPermissionsRequestCode);
+									new string[] { Manifest.Permission.AccessFineLocation },
+									RequestPermissionsRequestCode);
 						})
-				        .Show();
+						.Show();
 			}
 			else
 			{
@@ -191,13 +257,13 @@ namespace LocUpdFgService
 				// sets the permission in a given state or the user denied the permission
 				// previously and checked "Never ask again".
 				ActivityCompat.RequestPermissions(this,
-				        new string[] { Manifest.Permission.AccessFineLocation },
-				        RequestPermissionsRequestCode);
+						new string[] { Manifest.Permission.AccessFineLocation },
+						RequestPermissionsRequestCode);
 			}
 		}
 
-		public override void OnRequestPermissionsResult(int requestCode, string[] permissions, 
-		                 Android.Content.PM.Permission[] grantResults)
+		public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
+						 Android.Content.PM.Permission[] grantResults)
 		{
 			Log.Info(Tag, "onRequestPermissionResult");
 			if (requestCode == RequestPermissionsRequestCode)
@@ -213,7 +279,7 @@ namespace LocUpdFgService
 					// Permission was granted.
 					Service.RequestLocationUpdates("1");
 				}
-				else 
+				else
 				{
 					// Permission denied.
 					SetButtonsState(false);
@@ -221,7 +287,7 @@ namespace LocUpdFgService
 							FindViewById(Resource.Id.activity_main),
 							Resource.String.permission_denied_explanation,
 							Snackbar.LengthIndefinite)
-					        .SetAction(Resource.String.settings, (obj) => {
+							.SetAction(Resource.String.settings, (obj) => {
 								// Build intent that displays the App settings screen.
 								Intent intent = new Intent();
 								intent.SetAction(Android.Provider.Settings.ActionApplicationDetailsSettings);
@@ -230,7 +296,7 @@ namespace LocUpdFgService
 								intent.SetFlags(ActivityFlags.NewTask);
 								StartActivity(intent);
 							})
-					        .Show();
+							.Show();
 				}
 			}
 		}

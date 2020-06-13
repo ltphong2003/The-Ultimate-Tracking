@@ -19,7 +19,7 @@ namespace LocUpdFgService
 		public static bool RequestingLocationUpdates(Context context)
 		{
 			return PreferenceManager.GetDefaultSharedPreferences(context)
-				    .GetBoolean(KeyRequestingLocationUpdates, false);
+					.GetBoolean(KeyRequestingLocationUpdates, false);
 		}
 
 		/**
@@ -30,7 +30,7 @@ namespace LocUpdFgService
 		{
 			PreferenceManager.GetDefaultSharedPreferences(context)
 					.Edit()
-			        .PutBoolean(KeyRequestingLocationUpdates, requestingLocationUpdates)
+					.PutBoolean(KeyRequestingLocationUpdates, requestingLocationUpdates)
 					.Apply();
 		}
 
@@ -41,13 +41,13 @@ namespace LocUpdFgService
 		public static string GetLocationText(Location location)
 		{
 			return location == null ? "Unknown location" :
-					"Location "+"(" + location.Latitude + ", " + location.Longitude + ")" +'\n'+ "Direction "+location.Bearing + '\n' + "Speed "+location.Speed+ '\n' ; 
+					"Location " + "(" + location.Latitude + ", " + location.Longitude + ")" + '\n' + "Direction " + location.Bearing + '\n' + "Speed " + location.Speed + '\n';
 		}
 
 		public static string GetLocationTitle(Context context)
 		{
 			return context.GetString(Resource.String.location_updated,
-			        DateFormat.GetDateFormat(context).Format(new Date()));
+					DateFormat.GetDateFormat(context).Format(new Date()));
 		}
 	}
 }
