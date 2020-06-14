@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Archive>
+  <Name>TheUltimateTrackingMobile</Name>
+  <PackageName>com.companyname.theultimatetrackingmobile</PackageName>
+  <PackageVersionCode>1</PackageVersionCode>
+  <PackageVersionName>1.0</PackageVersionName>
+  <PackageFormat>apk</PackageFormat>
+  <CreationDate>637277484891235983</CreationDate>
+  <SolutionName>TheUltimateTrackingMobile</SolutionName>
+  <SolutionPath>E:\Big project\The-Ultimate-Tracking\TheUltimateTrackingMobile\TheUltimateTrackingMobile.sln</SolutionPath>
+  <Status></Status>
+  <Configuration>
+    <DebugMode>false</DebugMode>
+  </Configuration>
+</Archive>
