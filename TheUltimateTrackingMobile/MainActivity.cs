@@ -27,6 +27,8 @@ using Java.Sql;
 using FireSharp.Config;
 using FireSharp.Interfaces;
 using FireSharp.Response;
+using Android.Renderscripts;
+
 namespace TheUltimateTrackingMobile
 {
    
@@ -36,6 +38,7 @@ namespace TheUltimateTrackingMobile
         //Map
         GoogleMap mainMap;
         public static int user_id = 0;
+        public static List<int> vehiclenum;
         //PermissionsRequest
         const int RequestID = 0;
         readonly string[] permissionsGroup =
@@ -91,9 +94,9 @@ namespace TheUltimateTrackingMobile
                 if ((vehi_data.email == user) && (vehi_data.password == pass))
                 {
                     user_id = i;
-                    RetrieveVehicle();
-                    RetrieveLocation();
                     ConnectControls();
+                    RetrieveVehicle();
+                    //ConnectControls();
                     break;          
                 }
             }
@@ -150,8 +153,21 @@ namespace TheUltimateTrackingMobile
 
         }
 
+        void SetVehicleNum()
+        {
+            List<int> vehiclenumber = new List<int>();
+            for (int i = 0; i < vehicleidList.Count; i++)
+            {
+                int num = Convert.ToInt32(vehicleidList[i].vehicle_id);
+                vehiclenumber.Add(num);
+            }
+            vehiclenum = vehiclenumber;
+            RetrieveLocation();
+        }
+
         private void VehicleListeners_vehicleDataRetrieved(object sender, VehicleListeners.vehicleDataEventArgs e)
         {
+            
             vehicleidList = e.VehicleId;
             List<string> dataList = new List<string>();
             for (int i = 0; i < vehicleidList.Count; i++)
@@ -160,6 +176,8 @@ namespace TheUltimateTrackingMobile
             }
             var ArrayAdapter1 = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, dataList);
             vehicleFind.Adapter = ArrayAdapter1;
+            SetVehicleNum();
+            
             //vehicledetailList = e.VehicleDetail;
         }
 
@@ -174,10 +192,11 @@ namespace TheUltimateTrackingMobile
         {
             locationList = e.Location;
             SetLocation();
+            vehicleFind.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
         }
 
         private void SetLocation()
-        {
+        { 
             mainMap.Clear();
             List<LatLng> positions = new List<LatLng>();
             for (int i = 0; i < locationList.Count; i++)
@@ -234,19 +253,26 @@ namespace TheUltimateTrackingMobile
 
             string markernum = marker.Title;
             int number = Convert.ToInt32(markernum);
-            string vehicleText = "Vehicle: " + vehicleidList[number].name;
-            string licenseText = "License: " + vehicleidList[number].lpn;
-            string addressText = "Address: " + locationList[number].address;
-            string timeText = "Last update: " + locationList[number].time;
+            for (int i = 0; i < vehicleidList.Count; i++)
+            {
+                if (locationList[number].vehicle_id == vehicleidList[i].vehicle_id)
+                {
+                    string vehicleText = "Vehicle: " + vehicleidList[i].name;
+                    string licenseText = "License: " + vehicleidList[i].lpn;
+                    string addressText = "Address: " + locationList[number].address;
+                    string timeText = "Last update: " + locationList[number].time;
 
 
-            view.FindViewById<TextView>(Resource.Id.txtVehicle).Text = vehicleText;
-            view.FindViewById<TextView>(Resource.Id.txtLicense).Text = licenseText;
-            view.FindViewById<TextView>(Resource.Id.txtAddress).Text = addressText;
-            view.FindViewById<TextView>(Resource.Id.txtTime).Text = timeText;
+                    view.FindViewById<TextView>(Resource.Id.txtVehicle).Text = vehicleText;
+                    view.FindViewById<TextView>(Resource.Id.txtLicense).Text = licenseText;
+                    view.FindViewById<TextView>(Resource.Id.txtAddress).Text = addressText;
+                    view.FindViewById<TextView>(Resource.Id.txtTime).Text = timeText;
 
-            LatLng myposition = new LatLng(Convert.ToDouble(locationList[number].lat), Convert.ToDouble(locationList[number].lon));
-            mainMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(myposition, 18));
+                    LatLng myposition = new LatLng(Convert.ToDouble(locationList[number].lat), Convert.ToDouble(locationList[number].lon));
+                    mainMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(myposition, 18));
+                }
+            }
+            
 
             return view;
         }
@@ -259,14 +285,13 @@ namespace TheUltimateTrackingMobile
 
             zoomin.Click += Zoomin_Click;
             zoomout.Click += Zoomout_Click;
-            vehicleFind.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
         }
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Spinner sp = (Spinner)sender;
-            int number = e.Position;
-            LatLng myposition = new LatLng(Convert.ToDouble(locationList[number].lat), Convert.ToDouble(locationList[number].lon));
+            int loca = e.Position;
+            LatLng myposition = new LatLng(Convert.ToDouble(locationList[loca].lat), Convert.ToDouble(locationList[loca].lon));
             mainMap.MoveCamera(CameraUpdateFactory.NewLatLngZoom(myposition, 16));
         }
 

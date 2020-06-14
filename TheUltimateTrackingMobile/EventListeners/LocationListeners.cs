@@ -63,8 +63,13 @@ namespace TheUltimateTrackingMobile.EventListeners
                     if (locationData.Child("time") != null) location.time = locationData.Child("time").Value.ToString();
                     if (locationData.Child("vehicle_id") != null) location.vehicle_id = locationData.Child("vehicle_id").Value.ToString();
                 
-                      locationList.Add(location);
-                    
+                    for (int i = 0; i < MainActivity.vehiclenum.Count; i++)
+                    {
+                        if (location.vehicle_id == MainActivity.vehiclenum[i].ToString())
+                        {
+                            locationList.Add(location);
+                        }
+                    }  
                 }
                 locationDataRetrieved.Invoke(this, new locationDataEventArgs { Location = locationList });
             }
